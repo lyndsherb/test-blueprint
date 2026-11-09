@@ -3,8 +3,8 @@ import { NestFactory } from '@nestjs/core';
 
 @Injectable()
 class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  getHello(): object {
+    return { "Hello": "World!" };
   }
 }
 
@@ -13,7 +13,7 @@ class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
+  getHello(): object {
     return this.appService.getHello();
   }
 }
