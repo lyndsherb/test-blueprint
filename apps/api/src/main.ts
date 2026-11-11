@@ -1,10 +1,12 @@
 import { Controller, Get, Injectable, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { DatabaseModule } from './modules/database.module.js';
 
 @Injectable()
 class AppService {
   getHello(): object {
-    return { "Hello": "World!" };
+    return { data: "Hello World!" };
   }
 }
 
@@ -12,14 +14,26 @@ class AppService {
 class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
+  @Get("")
   getHello(): object {
     return this.appService.getHello();
   }
 }
 
+@Controller("cats")
+class CatsController {
+  @Get()
+  fetch(): object {
+    return { data: "Cats will be fetched by this endpoint" }
+  }
+}
+
 @Module({
-  controllers: [AppController],
+  imports: [
+    ConfigModule.forRoot(),
+    DatabaseModule,
+  ],
+  controllers: [AppController, CatsController],
   providers: [AppService],
 })
 class AppModule {}
